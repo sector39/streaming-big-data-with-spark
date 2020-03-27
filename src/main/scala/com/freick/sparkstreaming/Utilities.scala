@@ -1,12 +1,11 @@
 package com.freick.sparkstreaming
 
-import org.apache.log4j.{Level, Logger}
 import java.util.regex.Pattern
-import java.util.regex.Matcher
 
 object Utilities {
     /** Makes sure only ERROR messages get logged to avoid log spam. */
   def setupLogging() = {
+    import org.apache.log4j.{Level, Logger}
     val rootLogger = Logger.getRootLogger()
     rootLogger.setLevel(Level.ERROR)
   }
@@ -15,7 +14,7 @@ object Utilities {
   def setupTwitter() = {
     import scala.io.Source
 
-    for (line <- Source.fromFile("twitter.txt").getLines) {
+    for (line <- Source.fromFile("../twitter.txt").getLines) {
       val fields = line.split(" ")
       if (fields.length == 2) {
         System.setProperty("twitter4j.oauth." + fields(0), fields(1))

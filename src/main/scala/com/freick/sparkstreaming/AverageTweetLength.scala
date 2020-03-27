@@ -2,7 +2,6 @@ package com.freick.sparkstreaming
 
 import java.util.concurrent.atomic._
 
-import com.freick.sparkstreaming.Utilities._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.twitter._
 
@@ -38,7 +37,6 @@ object AverageTweetLength {
     // these counters are thread-safe.
     var totalTweets = new AtomicLong(0)
     var totalChars = new AtomicLong(0)
-    var longestTweetLength = new AtomicInteger(0)
 
     // In Spark 1.6+, you  might also look into the mapWithState function, which allows
     // you to safely and efficiently keep track of global state with key/value pairs.
@@ -52,22 +50,15 @@ object AverageTweetLength {
 
         totalChars.getAndAdd(rdd.reduce((x,y) => x + y))
 
-        val max = rdd.max()
-
-        if (max > longestTweetLength.get()) {
-          longestTweetLength.set(max)
-        }
-
         println("Total tweets: " + totalTweets.get() +
             " Total characters: " + totalChars.get() +
-            " Average: " + totalChars.get() / totalTweets.get() +
-            " Longest: " + longestTweetLength.get())
+            " Average: " + totalChars.get() / totalTweets.get())
       }
     })
 
     // Set a checkpoint directory, and kick it all off
     // I could watch this all day!
-    //ssc.checkpoint("C:/checkpoint/")
+    ssc.checkpoint("C:/checkpoint/")
     ssc.start()
     ssc.awaitTermination()
   }

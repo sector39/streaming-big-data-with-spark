@@ -1,8 +1,5 @@
 package com.freick.sparkstreaming
 
-import java.util.concurrent.atomic.AtomicLong
-
-import com.freick.sparkstreaming.Utilities._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.twitter._
 
@@ -40,31 +37,19 @@ object PopularHashtags {
     val hashtagKeyValues = hashtags.map(hashtag => (hashtag, 1))
 
     // Now count them up over a 5 minute window sliding every one second
-    val hashtagCounts = hashtagKeyValues.reduceByKeyAndWindow( (x,y) => x + y, (x,y) => x - y, Seconds(300), Seconds(10))
+    val hashtagCounts = hashtagKeyValues.reduceByKeyAndWindow( (x,y) => x + y, (x,y) => x - y, Seconds(300), Seconds(1))
     //  You will often see this written in the following shorthand:
     //val hashtagCounts = hashtagKeyValues.reduceByKeyAndWindow( _ + _, _ -_, Seconds(300), Seconds(1))
 
     // Sort the results by the count values
-    val sortedResults = hashtagCounts.transform(rdd => rdd.sortBy(x => x._2, false)).cache()
+    val sortedResults = hashtagCounts.transform(rdd => rdd.sortBy(x => x._2, false))
 
     // Print the top 10
-    //sortedResults.print
-
-    var totalTweets = new AtomicLong(0)
-
-    sortedResults.foreachRDD{ (rdd) =>
-      var count = rdd.count()
-      if (count > 0) {
-        totalTweets.getAndAdd(count)
-
-        println(totalTweets.get)
-        rdd.take(10).foreach(a => println(a))
-      }
-    }
+    sortedResults.print
 
     // Set a checkpoint directory, and kick it all off
     // I could watch this all day!
-    ssc.checkpoint("/Users/philipp/workspace/private/spark-streaming/output")
+    ssc.checkpoint("C:/checkpoint/")
     ssc.start()
     ssc.awaitTermination()
   }

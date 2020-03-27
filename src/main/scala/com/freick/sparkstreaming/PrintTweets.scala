@@ -1,13 +1,9 @@
+
+
 package com.freick.sparkstreaming
 
-import org.apache.spark._
-import org.apache.spark.SparkContext._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.twitter._
-import org.apache.spark.streaming.StreamingContext._
-import org.apache.log4j.Level
-import com.freick.sparkstreaming.Utilities._
-
 
 /** Simple application to listen to a stream of Tweets and print them out */
 object PrintTweets {
@@ -29,7 +25,7 @@ object PrintTweets {
     val tweets = TwitterUtils.createStream(ssc, None)
 
     // Now extract the text of each status update into RDD's using map()
-    val statuses = tweets.filter(_.getLang == "en").map(status => status.getText())
+    val statuses = tweets.map(status => status.getText())
 
     // Print out the first ten
     statuses.print()

@@ -24,7 +24,7 @@ object SaveTweets {
     val tweets = TwitterUtils.createStream(ssc, None)
 
     // Now extract the text of each status update into RDD's using map()
-    val statuses = tweets.filter(_.getLang == "en").map(status => status.getText())
+    val statuses = tweets.map(status => status.getText())
 
     // Here's one way to just dump every partition of every stream to individual files:
     //statuses.saveAsTextFiles("Tweets", "txt")
@@ -39,7 +39,7 @@ object SaveTweets {
       // Don't bother with empty batches
       if (rdd.count() > 0) {
         // Combine each partition's results into a single RDD:
-        val repartitionedRDD = rdd.cache()
+        val repartitionedRDD = rdd.repartition(1).cache()
         // And print out a directory with the results.
         repartitionedRDD.saveAsTextFile("Tweets_" + time.milliseconds.toString)
         // Stop once we've collected 1000 tweets.
@@ -54,7 +54,7 @@ object SaveTweets {
     // You can also write results into a database of your choosing, but we'll do that later.
 
     // Set a checkpoint directory, and kick it all off
-    ssc.checkpoint("/Users/philipp/workspace/private/spark-streaming/output")
+    ssc.checkpoint("C:/checkpoint/")
     ssc.start()
     ssc.awaitTermination()
   }
