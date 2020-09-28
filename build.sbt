@@ -11,5 +11,7 @@ libraryDependencies ++= Seq(
 //  "org.twitter4j" % "twitter4j-stream" % "4.0.4",
   "org.apache.bahir" %% "spark-streaming-twitter" % "2.4.0",
   "org.apache.spark" %% "spark-core" % sparkVersion,
-  "org.apache.spark" %% "spark-streaming" % sparkVersion
+  "org.apache.spark" %% "spark-streaming" % sparkVersion,
+  "com.datastax.spark" %% "spark-cassandra-connector" % "2.4.3",
+  "org.apache.spark" %% "spark-streaming-flume" % "2.2.0"
 )

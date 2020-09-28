@@ -5,6 +5,8 @@ import java.util.concurrent.atomic._
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.twitter._
 
+import com.freick.sparkstreaming.Utilities._
+
 /** Uses thread-safe counters to keep track of the average length of
  *  Tweets in a stream.
  */

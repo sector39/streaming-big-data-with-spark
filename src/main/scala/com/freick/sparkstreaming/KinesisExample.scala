@@ -7,6 +7,8 @@ import java.util.regex.Matcher
 import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.{Duration, Seconds, StreamingContext}
 
+import com.freick.sparkstreaming.Utilities._
+
 /** Example of connecting to Amazon Kinesis Streaming and listening for log data. */
 object KinesisExample {
 

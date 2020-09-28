@@ -1,12 +1,15 @@
-
 package com.freick.sparkstreaming
 
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming.{Seconds, StreamingContext}
+import org.apache.spark.storage.StorageLevel
+
+import java.util.regex.Pattern
 import java.util.regex.Matcher
 
-import com.freick.sparkstreaming.Utilities._
-import org.apache.spark.SparkConf
-import org.apache.spark.storage.StorageLevel
-import org.apache.spark.streaming.{Seconds, StreamingContext}
+import Utilities._
+
+import com.datastax.spark.connector._
 
 /** Listens to Apache log data on port 9999 and saves URL, status, and user agent
  *  by IP address in a Cassandra database.

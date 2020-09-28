@@ -2,10 +2,12 @@
 
 package com.freick.sparkstreaming
 
-import java.util.regex.Matcher
-
-import com.freick.sparkstreaming.Utilities._
 import org.apache.spark.streaming.{Seconds, StreamingContext}
+import java.util.regex.Pattern
+import java.util.regex.Matcher
+import Utilities._
+import org.apache.spark.streaming.flume._
+import org.apache.spark.streaming.dstream.DStream.toPairDStreamFunctions
 
 /** Example of connecting to Flume in a "push" configuration. */
 object FlumePushExample {
